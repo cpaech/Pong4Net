@@ -38,13 +38,26 @@ public class View {
      * @param mvcModel {@link Model} passed over from Main
      *
      */
-    public View(Model mvcModel)
+
+    MenuView mvcMenuView;
+    Controller mvcController;
+
+    /**
+     * Sets up all nesessary variables for drawing things to the screen and loads all resources into memory.
+     * @param mvcModel Model passed by {@link Main}
+     * @param mvcController Controller passed by {@link Main}
+     */
+    public View(Model mvcModel, Controller mvcController)
     {
-        batch = new SpriteBatch();
+        batch = new SpriteBatch(); //SpriteBatch. Necessary to draw things to the screen
         paddleTexture = new Texture("libgdx.png");
         ballTexture = new Texture("libgdx.png");
+        font = new BitmapFont(); //uses a default font of 15pt
+
         this.mvcModel = mvcModel;
-        font = new BitmapFont();
+        this.mvcController = mvcController;
+
+        mvcMenuView = new MenuView(mvcModel, mvcController);
     }
 
     
@@ -56,12 +69,23 @@ public class View {
      */
     public void render(float delta) 
     {
+        //clear the screen with one color
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+        //begin drawing
         batch.begin();
-        batch.draw(paddleTexture, mvcModel.paddleA.x, mvcModel.paddleA.y, mvcModel.paddleA.width, mvcModel.paddleA.height);
-        batch.draw(paddleTexture, mvcModel.paddleB.x, mvcModel.paddleB.y, mvcModel.paddleB.width, mvcModel.paddleB.height);
-        batch.draw(ballTexture, mvcModel.ball.x, mvcModel.ball.y, mvcModel.ball.width, mvcModel.ball.height);
-        font.draw(batch, mvcModel.scoreA + " : " + mvcModel.scoreB, 400, 560);
+        //weather to draw the home menu or game screen
+        if (mvcModel.homeMenuVisible)
+        {
+            mvcMenuView.render(batch);       
+        }
+        else 
+        {
+            batch.draw(paddleTexture, mvcModel.paddleB.x, mvcModel.paddleB.y, mvcModel.paddleB.width, mvcModel.paddleB.height);
+            batch.draw(paddleTexture, mvcModel.paddleA.x, mvcModel.paddleA.y, mvcModel.paddleA.width, mvcModel.paddleA.height);
+            font.draw(batch, mvcModel.scoreA + " : " + mvcModel.scoreB, 400, 560);
+            batch.draw(ballTexture, mvcModel.ball.x, mvcModel.ball.y, mvcModel.ball.width, mvcModel.ball.height);
+        }
+        //end drawing
         batch.end();
     }
     /**

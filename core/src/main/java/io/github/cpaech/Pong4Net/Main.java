@@ -29,8 +29,8 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         mvcModel = new Model();
-        mvcView = new View(mvcModel);
         mvcController = new Controller(mvcModel);
+        mvcView = new View(mvcModel, mvcController);
     }
 
     /**
@@ -38,8 +38,8 @@ public class Main extends ApplicationAdapter {
      */
     @Override
     public void render() {
-        float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta
-        mvcView.render(delta);
+        float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta (time since last frame)
+        mvcView.render(delta); 
     }
     /**
      * Disposes of all classes and their memory (important for graphical stuff)

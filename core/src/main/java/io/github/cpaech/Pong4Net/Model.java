@@ -38,7 +38,10 @@ public class Model {
      * Speed and direction of the ball. This is to simulate the position of the ball
      */
     public Vector2 ballSpeed;
-
+    /**
+     * This tells the Model, View and MenuView if the menu or game should be visible.
+     */
+    public boolean homeMenuVisible = false;
     /**
      * Initializes some default values for all parameters. TODO: generate (or fetch if already exists)
      * a player ID to identify each player in games and on the scoreboard.
@@ -49,11 +52,13 @@ public class Model {
         paddleB = new Rectangle();
         ball = new Rectangle();
         ballSpeed = new Vector2(1.0f, 1.0f);
+
         paddleA.setSize(20, 100);
         paddleB.setSize(20, 100);
-        ball.setSize(20, 20);
         paddleA.setPosition(0.0f, 600.0f/2.0f - (paddleA.height/2.0f));
         paddleB.setPosition(800.0f - (paddleB.width), 600.0f/2.0f - (paddleB.height/2.0f));
+        
+        ball.setSize(20, 20);
         ball.setPosition(400.0f, 300.0f);
     }
 }

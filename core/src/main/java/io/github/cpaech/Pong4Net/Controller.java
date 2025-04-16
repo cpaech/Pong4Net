@@ -1,10 +1,13 @@
 package io.github.cpaech.Pong4Net;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 /**
  * This takes care of all the menu, game, physics and lobby creation logic. It does not take care of Input gathering and network synchronisation.
- * 
+ * It extends ChangeListener in order to react to button presses by the view
  */
-public class Controller {
+public class Controller extends ChangeListener{
     /**
      * Reference to the Model provided for Model-View-Controller
      */
@@ -18,5 +21,13 @@ public class Controller {
     {
         this.mvcModel = mvcModel;
 
+    }
+
+    /**
+     * This method gets called whenever something happens (eg. buttonclick) in the view.
+     */
+    @Override
+    public void changed (ChangeEvent event, Actor actor) {
+        System.out.println("Button Pressed" + actor.getName());
     }
 }
