@@ -9,26 +9,43 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-    private SpriteBatch batch;
-    private Texture image;
+    
+    /**
+     * View used to show all elements on screen
+     */
+    View mvcView;
+    /**
+     * Model used to store and synchronize Game Data
+     */
+    Model mvcModel;
+    /**
+     * Controller taking care of game and phsyics logic
+     */
+    Controller mvcController;
 
+    /** 
+    * This is the entry method for the program. It initializes the {@link Main#mvcModel}, {@link io.github.cpaech.Pong4Net.Main#mvcView} and {@link io.github.cpaech.Pong4Net.Main#mvcController}
+    */
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
+        mvcModel = new Model();
+        mvcView = new View(mvcModel);
+        mvcController = new Controller(mvcModel);
     }
 
+    /**
+     * Called every frame to update the game. This subsequently calls the render method of all other classes
+     */
     @Override
     public void render() {
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        batch.begin();
-        batch.draw(image, 140, 210);
-        batch.end();
+        float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta
+        mvcView.render(delta);
     }
-
+    /**
+     * Disposes of all classes and their memory (important for graphical stuff)
+     */
     @Override
     public void dispose() {
-        batch.dispose();
-        image.dispose();
+        mvcView.dispose();
     }
 }

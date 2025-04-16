@@ -1,6 +1,9 @@
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 eclipse.project.name = appName + '-core'
 
+javadoc {
+    destinationDir = file("${buildDir}/docs/javadoc")
+}
 dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
 
