@@ -38,6 +38,9 @@ public class Model {
      * Speed and direction of the ball. This is to simulate the position of the ball
      */
     public Vector2 ballSpeed;
+    /**
+     * Speed of the paddle while moving
+     */
     public float paddleSpeed = 50.0f;
     /**
      * This tells the Model, View and MenuView if the menu or game should be visible.
