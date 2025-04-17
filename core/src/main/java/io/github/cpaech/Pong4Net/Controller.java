@@ -27,7 +27,26 @@ public class Controller extends ChangeListener{
 
     public void render(float delta)
     {
-        
+        if(Gdx.input.isKeyPressed(Keys.W)){
+            mvcModel.paddleA.y = mvcModel.paddleA.y +mvcModel.paddleSpeed*delta;
+        }
+        if(Gdx.input.isKeyPressed(Keys.S)){
+            mvcModel.paddleA.y = mvcModel.paddleA.y -mvcModel.paddleSpeed*delta;
+        }
+        if(Gdx.input.isKeyPressed(Keys.O)){
+            mvcModel.paddleB.y = mvcModel.paddleB.y +mvcModel.paddleSpeed*delta;
+        }
+        if(Gdx.input.isKeyPressed(Keys.L)){
+            mvcModel.paddleB.y = mvcModel.paddleB.y -mvcModel.paddleSpeed*delta;
+        }
+        if(mvcModel.paddleA.y > 600.0f-mvcModel.paddleA.height)
+        {mvcModel.paddleA.y = 600.0f-mvcModel.paddleA.height;}
+        if(mvcModel.paddleA.y < 0.0f)
+        {mvcModel.paddleA.y = 0.0f;}
+        if(mvcModel.paddleB.y > 600.0f-mvcModel.paddleB.height)
+        {mvcModel.paddleB.y = 600.0f-mvcModel.paddleB.height;}
+        if(mvcModel.paddleB.y < 0.0f)
+        {mvcModel.paddleB.y = 0.0f;}
     }
 
     /**

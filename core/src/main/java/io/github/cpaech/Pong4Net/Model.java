@@ -38,6 +38,7 @@ public class Model {
      * Speed and direction of the ball. This is to simulate the position of the ball
      */
     public Vector2 ballSpeed;
+    public float paddleSpeed = 50.0f;
     /**
      * This tells the Model, View and MenuView if the menu or game should be visible.
      */
@@ -53,8 +54,8 @@ public class Model {
         ball = new Rectangle();
         ballSpeed = new Vector2(1.0f, 1.0f);
 
-        paddleA.setSize(20, 100);
-        paddleB.setSize(20, 100);
+        paddleA.setSize(20, 150);
+        paddleB.setSize(20, 150);
         paddleA.setPosition(0.0f, 600.0f/2.0f - (paddleA.height/2.0f));
         paddleB.setPosition(800.0f - (paddleB.width), 600.0f/2.0f - (paddleB.height/2.0f));
         
