@@ -1,5 +1,7 @@
 package io.github.cpaech.Pong4Net;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
@@ -21,6 +23,11 @@ public class Controller extends ChangeListener{
     {
         this.mvcModel = mvcModel;
 
+    }
+
+    public void render(float delta)
+    {
+        
     }
 
     /**

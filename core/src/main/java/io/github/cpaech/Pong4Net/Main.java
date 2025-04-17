@@ -39,6 +39,7 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta (time since last frame)
+        mvcController.render(delta);
         mvcView.render(delta); 
     }
     /**
