@@ -22,6 +22,10 @@ public class Main extends ApplicationAdapter {
      * Controller taking care of game and phsyics logic
      */
     Controller mvcController;
+    /**
+     * InputController for accepting user input
+     */
+    InputController inputController;
 
     /** 
     * This is the entry method for the program. It initializes the {@link Main#mvcModel}, {@link io.github.cpaech.Pong4Net.Main#mvcView} and {@link io.github.cpaech.Pong4Net.Main#mvcController}
@@ -31,6 +35,7 @@ public class Main extends ApplicationAdapter {
         mvcModel = new Model();
         mvcController = new Controller(mvcModel);
         mvcView = new View(mvcModel, mvcController);
+        inputController = new InputController(mvcModel);
     }
 
     /**
@@ -39,8 +44,12 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta (time since last frame)
+        inputController.input();
+        mvcController.moveBall();
+        mvcController.collisionChecks();
         mvcView.render(delta); 
     }
+
     /**
      * Disposes of all classes and their memory (important for graphical stuff)
      */
