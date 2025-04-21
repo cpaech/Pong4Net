@@ -49,6 +49,11 @@ public class Model {
     /**
      * This tells the Model, View and MenuView if the menu or game should be
      * visible.
+     * Speed of the paddle while moving
+     */
+    public float paddleSpeed = 50.0f;
+    /**
+     * This tells the Model, View and MenuView if the menu or game should be visible.
      */
     public boolean homeMenuVisible = false;
 
@@ -66,7 +71,6 @@ public class Model {
         paddleB.setSize(20, 100);
         paddleA.setPosition(0.0f, 600.0f / 2.0f - (paddleA.height / 2.0f));
         paddleB.setPosition(800.0f - (paddleB.width), 600.0f / 2.0f - (paddleB.height / 2.0f));
-
         ball.setSize(20, 20);
         ball.setPosition(400.0f, 300.0f);
     }
