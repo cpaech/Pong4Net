@@ -38,17 +38,37 @@ public class Controller extends ChangeListener {
         this.mvcModel = mvcModel;
         
         SocketHints socketHints = new SocketHints();
-        // Socket will time our in 4 seconds
+        // Socket will time out in 4 seconds
         socketHints.connectTimeout = 4000;
-        socket = Gdx.net.newClientSocket(Protocol.TCP, "localhost", 7654, socketHints);
+        try {
+            socket = Gdx.net.newClientSocket(Protocol.TCP, "localhost", 7654, socketHints);
+        } catch (GdxRuntimeException e) {
+            System.out.println("Server not found");
+            e.printStackTrace();
+            socket = null;
+            //TODO: return to menu
+        }
     }
 
+    /**
+     * This method is called once per frame. It is responsible for updating the game state.
+     * And updating the server logic.
+     */
     public void render(float delta)
     {
-        SocketHints sHints = new SocketHints();
-        sHints.connectTimeout = 100;
-        MessageTest msg = new MessageTest("Test123");
-        msg.Send(socket.getOutputStream());
+        if (socket.isConnected() == false)
+        {
+            System.out.println("Server disconnected");  
+            socket = null;
+            //TODO: return to menu
+        }
+        if (socket != null) {
+            SocketHints sHints = new SocketHints();
+            sHints.connectTimeout = 100;
+            MessageTest msg = new MessageTest("Test123");
+            msg.Send(socket.getOutputStream());
+        }
+    
     }
 
     /**

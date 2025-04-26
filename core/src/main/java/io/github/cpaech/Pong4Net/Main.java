@@ -35,7 +35,7 @@ public class Main extends ApplicationAdapter {
     /**
      * Checks wheter this is a server build
      */
-    boolean isServerBuild = false;
+    boolean isServerBuild = false; //change to start menu -> Start Server/Client
 
     /** 
     * This is the entry method for the program. It initializes the {@link Main#mvcModel}, {@link io.github.cpaech.Pong4Net.Main#mvcView} and {@link io.github.cpaech.Pong4Net.Main#mvcController}
@@ -54,7 +54,9 @@ public class Main extends ApplicationAdapter {
     }
 
     /**
-     * Called every frame to update the game. This subsequently calls the render method of all other classes
+     * This method updates all components of the game. It is called once per frame.
+     * It is responsible for rendering the game and updating the game state. 
+     * Or updating the server state.
      */
     @Override
     public void render() {
