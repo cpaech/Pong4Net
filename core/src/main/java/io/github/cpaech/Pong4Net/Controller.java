@@ -1,10 +1,21 @@
 package io.github.cpaech.Pong4Net;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.security.MessageDigest;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+
+import io.github.cpaech.Pong4Net.Messages.MessageTest;
 
 /**
  * This takes care of all the menu, game, physics and lobby creation logic. It does not take care of Input gathering and network synchronisation.
@@ -16,6 +27,8 @@ public class Controller extends ChangeListener {
      */
     private Model mvcModel;
 
+    public Socket socket;
+
     /**
      * 
      * @param mvcModel {@link Model} passed by the program entry in {@link Main}
@@ -23,6 +36,19 @@ public class Controller extends ChangeListener {
     public Controller(Model mvcModel) 
     {
         this.mvcModel = mvcModel;
+        
+        SocketHints socketHints = new SocketHints();
+        // Socket will time our in 4 seconds
+        socketHints.connectTimeout = 4000;
+        socket = Gdx.net.newClientSocket(Protocol.TCP, "localhost", 7654, socketHints);
+    }
+
+    public void render(float delta)
+    {
+        SocketHints sHints = new SocketHints();
+        sHints.connectTimeout = 100;
+        MessageTest msg = new MessageTest("Test123");
+        msg.Send(socket.getOutputStream());
     }
 
     /**
@@ -74,14 +100,14 @@ public class Controller extends ChangeListener {
         if(mvcModel.paddleA.y<=mvcModel.ball.y&&mvcModel.paddleA.y+mvcModel.paddleA.height>=mvcModel.ball.y&&mvcModel.paddleA.width>=mvcModel.ball.x&&0<mvcModel.ball.x){
             System.out.println("Paddle collision detected");
             mvcModel.ballSpeed.set(-mvcModel.ballSpeed.x, mvcModel.ballSpeed.y);
-            mvcModel.scoreA=mvcModel.scoreA+1;
         }
 
         // If the ball goes out if bounds it is returned to the middle.
         if (0>=mvcModel.ball.x) {
             System.out.println("Game over");
-            mvcModel.ballSpeed.set(0, 0);
+            //mvcModel.ballSpeed.set(0, 0);
             mvcModel.ball.setPosition(400, 300);
+            mvcModel.scoreB=mvcModel.scoreB+1;
         }
     }
 }

@@ -27,15 +27,30 @@ public class Main extends ApplicationAdapter {
      */
     InputController inputController;
 
+    /**
+     * Main class holding all the logic for the server
+     */
+    ServerController serverController;
+
+    /**
+     * Checks wheter this is a server build
+     */
+    boolean isServerBuild = false;
+
     /** 
     * This is the entry method for the program. It initializes the {@link Main#mvcModel}, {@link io.github.cpaech.Pong4Net.Main#mvcView} and {@link io.github.cpaech.Pong4Net.Main#mvcController}
     */
     @Override
     public void create() {
         mvcModel = new Model();
-        mvcController = new Controller(mvcModel);
-        mvcView = new View(mvcModel, mvcController);
-        inputController = new InputController(mvcModel);
+        if (!isServerBuild) {
+            mvcController = new Controller(mvcModel);
+            mvcView = new View(mvcModel, mvcController);
+            inputController = new InputController(mvcModel);
+        }
+        else {
+            serverController = new ServerController(mvcModel);
+        }
     }
 
     /**
@@ -44,10 +59,16 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta (time since last frame)
-        inputController.input();
-        mvcController.moveBall();
-        mvcController.collisionChecks();
-        mvcView.render(delta); 
+        if (!isServerBuild){
+            inputController.input();
+            mvcController.render(delta);
+            mvcController.moveBall();
+            mvcController.collisionChecks();
+            mvcView.render(delta); 
+        }
+        else {
+            serverController.render();
+        }
     }
 
     /**

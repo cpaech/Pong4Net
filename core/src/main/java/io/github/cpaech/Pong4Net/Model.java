@@ -2,8 +2,12 @@ package io.github.cpaech.Pong4Net;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.net.SocketHints;
 
 /**
  * Storage and synchronisation of all gamedata
@@ -57,6 +61,7 @@ public class Model {
      */
     public boolean homeMenuVisible = false;
 
+
     /**
      * Initializes some default values for all parameters. TODO: generate (or fetch
      * if already exists)
@@ -66,7 +71,7 @@ public class Model {
         paddleA = new Rectangle();
         paddleB = new Rectangle();
         ball = new Rectangle();
-        initializeBallSpeed();
+        initializeBallSpeed(); //This is useless when acting as Server
         paddleA.setSize(20, 100);
         paddleB.setSize(20, 100);
         paddleA.setPosition(0.0f, 600.0f / 2.0f - (paddleA.height / 2.0f));
@@ -97,7 +102,7 @@ public class Model {
             xSpeed = (float) Math.cos(arc * Math.PI / 180);
         }
 
-        float startSpeed = 2;
+        float startSpeed = 10;
         ballSpeed = new Vector2(xSpeed * startSpeed, (float) (Math.sin(arc * Math.PI / 180) * startSpeed));
         System.out.println("Initial ball speed: " + ballSpeed);
     }
