@@ -19,11 +19,13 @@ public class Controller extends ChangeListener {
      * Reference to the Model provided for Model-View-Controller
      */
     private Model mvcModel;
-
+    /**
+     * This is the socket that will be used to connect to the server
+     */
     public Socket socket;
 
     /**
-     * 
+     * This method sets up all necessary objects for the controller.
      * @param mvcModel {@link Model} passed by the program entry in {@link Main}
      */
     public Controller(Model mvcModel) 
@@ -83,6 +85,10 @@ public class Controller extends ChangeListener {
         mvcModel.ball.setY(mvcModel.ball.y + mvcModel.ballSpeed.y);
     }
 
+    /**
+     * This method disposes of the socket and all other resources used by the controller.
+     * It is called when the game is closed.
+     */
     public void dispose() {
         socket.dispose();
     }

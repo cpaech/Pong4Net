@@ -63,7 +63,10 @@ public class ServerController {
             throw new RuntimeException("Failed creating a server", e); //TODO: Handle this by retuning to menu
         }
     }
-
+    /**
+     * This method is called when the server is disposed. It will close all
+     * connections and dispose of the server socket.
+     */
     public void dispose() {
         server.dispose();
         for (Socket s : clients) {
@@ -74,7 +77,7 @@ public class ServerController {
     /**
      * This is called every frame. It goes through all connected clients and checks
      * if they are still connected. If they are not, it removes them from the list. If they are connected
-     * it checks if a message is available and hadles it.
+     * it checks if a message is available and hadles it. It also adds new connections from the queue to the list of clients.
      * 
      */
     public void render() {
