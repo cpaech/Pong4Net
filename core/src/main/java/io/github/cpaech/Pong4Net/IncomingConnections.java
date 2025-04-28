@@ -43,7 +43,7 @@ public class IncomingConnections extends Thread{
                 try {
                     Socket s;
                     s = serverController.server.accept(sHints);
-                    serverController.clients.add(s);
+                    serverController.queue.add(s);
                 }
                 catch (GdxRuntimeException e){
                     //This is completely normal, it just means that no new connections are available

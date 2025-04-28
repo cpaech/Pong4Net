@@ -74,6 +74,12 @@ public class Main extends ApplicationAdapter {
      */
     @Override
     public void dispose() {
-        mvcView.dispose();
+        if (isServerBuild) {
+            serverController.dispose();
+        }
+        else {
+            mvcView.dispose();
+            mvcController.dispose();
+        }
     }
 }

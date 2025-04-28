@@ -1,13 +1,7 @@
 package io.github.cpaech.Pong4Net;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.net.Socket;
-import com.badlogic.gdx.net.SocketHints;
 
 /**
  * Storage and synchronisation of all gamedata

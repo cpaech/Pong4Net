@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
@@ -19,7 +20,11 @@ import io.github.cpaech.Pong4Net.Messages.MessageTest;
 
 
 public class ServerController {
-
+    /**
+     * This is the queue that will be used to store incoming socket connections. It is a
+     * ConcurrentLinkedQueue to allow multiple threads to access it at the same time
+     */
+    ConcurrentLinkedQueue<Socket> queue = new ConcurrentLinkedQueue<Socket>();
     /**
      * Reference to the Model provided for Model-View-Controller
      */
@@ -59,6 +64,13 @@ public class ServerController {
         }
     }
 
+    public void dispose() {
+        server.dispose();
+        for (Socket s : clients) {
+            s.dispose();
+        }
+    }
+
     /**
      * This is called every frame. It goes through all connected clients and checks
      * if they are still connected. If they are not, it removes them from the list. If they are connected
@@ -66,12 +78,22 @@ public class ServerController {
      * 
      */
     public void render() {
+        {
+            Socket s = queue.poll();
+            while (s != null) {
+                clients.add(s);
+                s = queue.poll();
+            }
+        }
+
         for (Socket s : clients) {
             //The Socket is closed if the client disconnects thus we remove it from the list
             if (s.isConnected() == false)
             {
+                s.dispose();
                 clients.remove(s);
                 continue;
+
             }
             
             InputStream stream = (s.getInputStream());

@@ -60,6 +60,7 @@ public class Controller extends ChangeListener {
             sHints.connectTimeout = 100;
             MessageTest msg = new MessageTest("Test123");
             msg.Send(socket.getOutputStream());
+            
         }
     
     }
@@ -81,6 +82,12 @@ public class Controller extends ChangeListener {
         mvcModel.ball.setX(mvcModel.ball.x + mvcModel.ballSpeed.x);
         mvcModel.ball.setY(mvcModel.ball.y + mvcModel.ballSpeed.y);
     }
+
+    public void dispose() {
+        socket.dispose();
+    }
+
+
 
     /**
      * Handles collision checks for the game, including:
