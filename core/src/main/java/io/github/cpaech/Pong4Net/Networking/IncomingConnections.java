@@ -1,5 +1,8 @@
 package io.github.cpaech.Pong4Net;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.badlogic.gdx.net.ServerSocket;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -12,18 +15,17 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  */
 public class IncomingConnections extends Thread{
     /**
-     * Reference to the {@link ServerController} which is used to accept incoming connections
-     * and store them in the {@link ServerController#clients} list.
+     * This is the queue that will be used to store incoming socket connections. It is a
+     * ConcurrentLinkedQueue to allow multiple threads to access it at the same time
      */
-    ServerController serverController;
-    /**
-     * This is the constructor for the {@link IncomingConnections} thread. It takes a {@link ServerController} as a parameter.
-     * 
-     * @param sController {@link ServerController} passed by the program entry in {@link Main}
-     */
-    public IncomingConnections(ServerController sController)
+    public ConcurrentLinkedQueue<Socket> queue;
+
+    public ServerSocket server;
+   
+    public IncomingConnections(ServerSocket server)
     {
-        serverController = sController;
+        this.server = server;
+        queue = new ConcurrentLinkedQueue<Socket>();
 
     }
 
@@ -42,8 +44,8 @@ public class IncomingConnections extends Thread{
             {
                 try {
                     Socket s;
-                    s = serverController.server.accept(sHints);
-                    serverController.queue.add(s);
+                    s = server.accept(sHints);
+                    queue.add(s);
                 }
                 catch (GdxRuntimeException e){
                     //This is completely normal, it just means that no new connections are available

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import io.github.cpaech.Pong4Net.Messages.IMessage;
 import io.github.cpaech.Pong4Net.Messages.MessageTest;
 
 /**
@@ -19,11 +20,8 @@ public class Controller extends ChangeListener {
      * Reference to the Model provided for Model-View-Controller
      */
     private Model mvcModel;
-    /**
-     * This is the socket that will be used to connect to the server
-     */
-    public Socket socket;
-
+    
+    public NetworkController networkController;
     /**
      * This method sets up all necessary objects for the controller.
      * @param mvcModel {@link Model} passed by the program entry in {@link Main}
@@ -31,18 +29,9 @@ public class Controller extends ChangeListener {
     public Controller(Model mvcModel) 
     {
         this.mvcModel = mvcModel;
+        networkController = new NetworkController(true);
+        networkController.start();
         
-        SocketHints socketHints = new SocketHints();
-        // Socket will time out in 4 seconds
-        socketHints.connectTimeout = 4000;
-        try {
-            socket = Gdx.net.newClientSocket(Protocol.TCP, "localhost", 7654, socketHints);
-        } catch (GdxRuntimeException e) {
-            System.out.println("Server not found");
-            e.printStackTrace();
-            socket = null;
-            //TODO: return to menu
-        }
     }
 
     /**
@@ -51,19 +40,8 @@ public class Controller extends ChangeListener {
      */
     public void render(float delta)
     {
-        if (socket.isConnected() == false)
-        {
-            System.out.println("Server disconnected");  
-            socket = null;
-            //TODO: return to menu
-        }
-        if (socket != null) {
-            SocketHints sHints = new SocketHints();
-            sHints.connectTimeout = 100;
-            MessageTest msg = new MessageTest("Test123");
-            msg.Send(socket.getOutputStream());
-            
-        }
+        networkController.Send(new MessageTest("This is a test"));
+        
     
     }
 
@@ -90,7 +68,6 @@ public class Controller extends ChangeListener {
      * It is called when the game is closed.
      */
     public void dispose() {
-        socket.dispose();
     }
 
 

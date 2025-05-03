@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
  * @author cpaech
  *
  */
-public class MessageTest
+public class MessageTest implements IMessage
 {
     /**
      * This is the type of the message. It is used to identify the message type on the receiving end.
@@ -67,6 +67,7 @@ public class MessageTest
      * 
      * @param writer {@link OutputStream} the OutputStream to write the message to
      */
+    @Override
     public void Send(OutputStream writer)
     {
         Charset charset = Charset.forName("ASCII");
@@ -79,5 +80,12 @@ public class MessageTest
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int GetType()
+    {
+        return type;
+        
     }
 }
