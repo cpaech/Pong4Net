@@ -53,8 +53,9 @@ public class Model {
     /**
      * This tells the Model, View and MenuView if the menu or game should be visible.
      */
-    public boolean homeMenuVisible = false;
+    public boolean homeMenuVisible = true;
 
+    public String player1Name;
 
     /**
      * Initializes some default values for all parameters. TODO: generate (or fetch

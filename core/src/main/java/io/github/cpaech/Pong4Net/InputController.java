@@ -23,12 +23,19 @@ public class InputController {
      * TODO: longer key presses-> higher paddleSpeed. Maybe a mouseover for better
      * control?
      */
-    public void input() {
+    public void paddleInput() {
         int paddleSpeed = 5;
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && mvcModel.paddleA.y + mvcModel.paddleA.height < 600) {
             mvcModel.paddleA.setY(mvcModel.paddleA.getY() + paddleSpeed);
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && mvcModel.paddleA.y > 0) {
             mvcModel.paddleA.setY(mvcModel.paddleA.getY() - paddleSpeed);
         }
+    }
+
+    public void changeStages() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            mvcModel.homeMenuVisible = !mvcModel.homeMenuVisible;
+        }
+        System.out.println("esape key pressed");
     }
 }

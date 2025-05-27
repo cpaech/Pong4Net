@@ -52,7 +52,7 @@ public class ServerController {
         this.mvcModel = mvcModel;
         
         try{
-            server = Gdx.net.newServerSocket(Protocol.TCP, 7654, new ServerSocketHints());
+            server = Gdx.net.newServerSocket(Protocol.TCP,  7654, new ServerSocketHints());
             
             clients = new ArrayList<Socket>();
             incomingConnections = new IncomingConnections(this);

@@ -50,16 +50,19 @@ public class View {
      * @param mvcModel      Model passed by {@link Main}
      * @param mvcController Controller passed by {@link Main}
      */
-    public View(Model mvcModel, Controller mvcController) {
+    public View(Model mvcModel) {
         batch = new SpriteBatch(); // SpriteBatch. Necessary to draw things to the screen
         paddleTexture = new Texture("libgdx.png");
         ballTexture = new Texture("libgdx.png");
         font = new BitmapFont(); // uses a default font of 15pt
 
         this.mvcModel = mvcModel;
-        this.mvcController = mvcController;
+        mvcMenuView = new MenuView(mvcModel);
+    }
 
-        mvcMenuView = new MenuView(mvcModel, mvcController);
+    public void setController(Controller mvcController) {
+        this.mvcController = mvcController;
+        mvcMenuView.setController(mvcController);
     }
 
     /**
@@ -76,7 +79,7 @@ public class View {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         // begin drawing
         batch.begin();
-        // weather to draw the home menu or game screen
+        // wether to draw the home menu or game screen
         if (mvcModel.homeMenuVisible) {
             mvcMenuView.render(batch);
         } else {
@@ -85,6 +88,7 @@ public class View {
             batch.draw(paddleTexture, mvcModel.paddleA.x, mvcModel.paddleA.y, mvcModel.paddleA.width,
                     mvcModel.paddleA.height);
             font.draw(batch, mvcModel.scoreA + " : " + mvcModel.scoreB, 400, 560);
+            font.draw(batch,"" + mvcModel.player1Name, 10, 560);
             batch.draw(ballTexture, mvcModel.ball.x, mvcModel.ball.y, mvcModel.ball.width, mvcModel.ball.height);
         }
         // end drawing

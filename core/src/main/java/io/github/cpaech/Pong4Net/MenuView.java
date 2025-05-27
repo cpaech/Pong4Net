@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -33,11 +34,27 @@ public class MenuView {
     /**
      * Example of a button with text.
      */
-    TextButton button;
+    TextButton loginButton;
+
+    TextButton soloPlayButton;
+
+    TextButton startGameButton;
+
+    TextField usernameField;
+
+    TextField serverPortField;
+
+    TextField serverHostField;
+
+    TextField errorField;
+
     /**
      * Style of the button (font, color, image, etc...).
      */
     TextButtonStyle textButtonStyle;
+
+    TextField.TextFieldStyle textFieldStyle;
+
     /**
      * The Font used for all UI-elements.
      */
@@ -56,9 +73,8 @@ public class MenuView {
      * @param mvcModel Model passed by {@link Main}
      * @param mvcController Controller passed by {@link Main}, responsible for input processing.
      */
-    public MenuView(Model mvcModel, Controller mvcController)
+    public MenuView(Model mvcModel)
     {
-        this.mvcController = mvcController;
         this.mvcModel = mvcModel;
 
         stage = new Stage();
@@ -75,18 +91,61 @@ public class MenuView {
         textButtonStyle.checked = skin.getDrawable("buttonnormal");
         textButtonStyle.fontColor = Color.BLACK;
 
-        button = new TextButton("Button1", textButtonStyle);
-        stage.addActor(button); //add the button to the stage. otherwise won't be rendered
+        textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.font = font;
+        textFieldStyle.fontColor = Color.RED;
 
+        /**
+         * 
+        startGameButton = new TextButton("Start Game", textButtonStyle);
+        //add the button to the stage. otherwise won't be rendered
+        stage.addActor(startGameButton);
 
-        button.setPosition(400, 300);
-        button.setWidth(120);
-        button.setHeight(50);
-
+        startGameButton.setPosition(400, 300);
+        startGameButton.setWidth(120);
+        startGameButton.setHeight(50);
         //this calls the mvcController changed() method if the button is pressed
-        button.addListener(mvcController);
+        startGameButton.addListener(mvcController);
         //this is required so the controller knows which button has been pressed
-        button.setName("PlayButton");
+        startGameButton.setName("PlayButton"); 
+        */
+        loginButton = newTextButton(loginButton, "LoginButton", "Login", 200, 200, 120, 50);
+        soloPlayButton = newTextButton(soloPlayButton, "SoloPlayButton", "Solo Play", 400, 400, 120, 50);
+        startGameButton = newTextButton(startGameButton, "StartGameButton", "Start Game", 400, 200, 120, 50);
+        usernameField = newTextField(usernameField, "usernameField", "Enter Username", 200, 300, 120, 50);
+        serverPortField = newTextField(serverPortField, "serverPortField", "Enter Server Port", 400, 250, 120, 50);
+        serverHostField = newTextField(serverHostField, "serverHostField", "Enter Server Host", 400, 300, 120, 50);
+        errorField = newTextField(errorField, null, null, 200, 0, 300, 50);
+    }
+    public TextField newTextField(TextField newField, String name, String messageText, float x, float y, float width, float height)
+    {
+        newField = new TextField("", textFieldStyle);
+        newField.setMessageText(messageText);
+        newField.setBounds(x, y, width, height);
+        newField.setName(name);
+        stage.addActor(newField);
+        if(name == "serverPortTextField"){newField.setText(String.valueOf(AppPreferences.getAppPreferences().getServerPort()));}
+        if(name == "serverHostTextField"){newField.setText(AppPreferences.getAppPreferences().getServerHost());}
+        return newField;
+    }
+
+    public TextButton newTextButton(TextButton newButton, String name, String text, float x, float y, float width, float height)
+    {
+        newButton = new TextButton(text, textButtonStyle);
+        newButton.setBounds(x, y, width, height);
+        newButton.setName(name);
+        stage.addActor(newButton);
+        return newButton;
+    }
+
+    public void setController(Controller mvcController) {  //used in view to manage circular dependency between MenuView and Controller.
+        this.mvcController = mvcController;
+        soloPlayButton.addListener(mvcController);
+        startGameButton.addListener(mvcController);
+        usernameField.addListener(mvcController);
+        serverPortField.addListener(mvcController);
+        serverHostField.addListener(mvcController);
+        loginButton.addListener(mvcController);
     }
 
     /**

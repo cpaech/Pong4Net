@@ -28,6 +28,7 @@ public class Main extends ApplicationAdapter {
      */
     ServerController serverController;
 
+
     /**
      * Checks wheter this is a server build
      */
@@ -38,15 +39,21 @@ public class Main extends ApplicationAdapter {
     */
     @Override
     public void create() {
+        loadPreferences();
         mvcModel = new Model();
         if (!isServerBuild) {
-            mvcController = new Controller(mvcModel);
-            mvcView = new View(mvcModel, mvcController);
+            mvcView = new View(mvcModel); // Temporarily pass null for the controller
+            mvcController = new Controller(mvcModel, mvcView.mvcMenuView);
+            mvcView.setController(mvcController);
             inputController = new InputController(mvcModel);
         }
         else {
             serverController = new ServerController(mvcModel);
         }
+    }
+
+    private void loadPreferences() {    
+        AppPreferences.getAppPreferences();
     }
 
     /**
@@ -58,10 +65,8 @@ public class Main extends ApplicationAdapter {
     public void render() {
         float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta (time since last frame)
         if (!isServerBuild){
-            inputController.input();
+            inputController.paddleInput();
             mvcController.render(delta);
-            mvcController.moveBall();
-            mvcController.collisionChecks();
             mvcView.render(delta); 
         }
         else {
